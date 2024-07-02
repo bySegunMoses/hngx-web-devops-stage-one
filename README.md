@@ -17,7 +17,7 @@ The `create_users.sh` script is designed to automate the creation and management
 
 ## Requirements
 
-- Linux environment (tested on Ubuntu)
+- Linux environment (tested on AWS Amazon Linux)
 - Bash shell
 - OpenSSL for password generation
 - Root or sudo privileges to execute user and group management commands
