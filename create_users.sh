@@ -34,12 +34,13 @@ while IFS=';' read -r username groups; do
   username=$(echo "$username" | xargs)
   groups=$(echo "$groups" | xargs)
 
-  # Create user and primary group
+  # Create user with their personal group
   if id "$username" &>/dev/null; then
     log_message "User $username already exists"
   else
-    useradd -m -G "$username" -s /bin/bash "$username"
-    log_message "User $username created"
+    # Create a user with a personal group (default group same as username)
+    useradd -m -s /bin/bash -G "$username" "$username"
+    log_message "User $username created with personal group $username"
 
     # Generate and set password
     password=$(generate_password)
@@ -47,7 +48,7 @@ while IFS=';' read -r username groups; do
     echo "$username,$password" >> "$PASSWORD_FILE"
     log_message "Password for $username set"
 
-    # Create additional groups
+    # Create and add to additional groups
     IFS=',' read -r -a group_array <<< "$groups"
     for group in "${group_array[@]}"; do
       group=$(echo "$group" | xargs)
